@@ -3,6 +3,7 @@ typedef unsigned int uint32_t;
 typedef uint32_t size_t;
 
 #include "kernel.h"
+#include "common.h"
 
 extern char __bss[], __bss_end[], __stack_top[];
 
@@ -30,11 +31,16 @@ void putchar(char ch)
 
 void kernel_main(void)
 {
-  const char *s = "\n\nHello World!\n";
-  for (int i = 0; s[i] != '\0'; i++)
-  {
-    putchar(s[i]);
-  }
+  memset(__bss, 0, (size_t)__bss_end - (size_t)__bss);
+
+  printf("\n\nHello World!\n");
+  printf("1 + 2 = %d, %x\n", 1 + 2, 0x1234abcd);
+
+  char buf2[100] = "kono message ha uwagaki sareru";
+  char buf[13];
+  strcpy(buf, "Hello World!!!!!!!!!!!!!!!!!!!!!!");
+  printf("buf: %s\n", buf);
+  printf("buf2: %s\n", buf2);
 
   for (;;)
   {
